@@ -1,0 +1,8 @@
+2021-11-20 00:11:01.376  INFO 13368 --- [http-nio-8182-exec-6] c.c.p.controller.UserController          : Jwt token is successfully generated
+2021-11-20 00:12:06.294  INFO 13368 --- [http-nio-8182-exec-8] c.c.p.controller.UserController          : Jwt token is successfully generated
+2021-11-20 00:12:56.234  INFO 13368 --- [http-nio-8182-exec-10] c.c.p.service.PatientDetailServiceImpl   : MrnNo is unique
+2021-11-20 00:12:56.520  INFO 13368 --- [http-nio-8182-exec-10] c.c.p.c.PatientDetailsController         : Patient Details created
+2021-11-20 00:56:24.129  INFO 13368 --- [RMI TCP Connection(2)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2021-11-20 00:56:24.473  INFO 13368 --- [RMI TCP Connection(2)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-11-20 00:56:24.480  INFO 13368 --- [RMI TCP Connection(2)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2021-11-20 00:56:24.497  INFO 13368 --- [RMI TCP Connection(2)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
