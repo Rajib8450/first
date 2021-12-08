@@ -15,4 +15,5 @@ public interface PatientDetailService {
 	public List<PatientDetails> findByName(String name);
 
 	public List<PatientDetails> findAll();
+
 }
