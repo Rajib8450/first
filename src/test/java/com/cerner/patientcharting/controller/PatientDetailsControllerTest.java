@@ -2,13 +2,11 @@ package com.cerner.patientcharting.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -29,7 +27,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SpringBootTest
 public class PatientDetailsControllerTest {
 	List<PatientDetails> pd = new ArrayList<PatientDetails>();
-
 	@Autowired
 	ObjectMapper objectMapper;
 	@Mock
@@ -88,5 +85,20 @@ public class PatientDetailsControllerTest {
 	public void findAllPatientDetailsTest() throws Exception {
 		MvcResult result=mockMvc.perform(get("/alldetails").accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isAccepted()).andReturn();
 		Assertions.assertEquals(202,result.getResponse().getStatus());
+	}
+	@Test
+	public void updatePatientTest() throws Exception {
+		patientDetails.setAddress("test1");
+		String jsonRequest=objectMapper.writeValueAsString(patientDetails);
+		MvcResult result=mockMvc.perform(put("/updatedetails").content(jsonRequest).contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isCreated()).andReturn();
+		Assertions.assertEquals(201,result.getResponse().getStatus());
+		Assertions.assertEquals(jsonRequest,result.getResponse().getContentAsString());
+	}
+	@Test
+	public void updatePatientFailureTest() throws Exception {
+		patientDetails.setId(null);
+		String jsonRequest=objectMapper.writeValueAsString(patientDetails);
+		MvcResult result=mockMvc.perform(put("/updatedetails").content(jsonRequest).contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isBadRequest()).andReturn();
+		Assertions.assertEquals(400,result.getResponse().getStatus());
 	}
 }

@@ -10,12 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cerner.patientcharting.exception.IdValueNull;
 import com.cerner.patientcharting.exception.RecordAlreadyExsists;
 import com.cerner.patientcharting.model.PatientDetails;
 import com.cerner.patientcharting.repository.PatientDetailsRepository;
@@ -79,5 +79,23 @@ public class PatientDetailsController {
 		List<PatientDetails> pd=patientDetailService.findAll();
 		logger.info("List of all patient details obtained");
 		return new ResponseEntity<>(pd,HttpStatus.ACCEPTED);
+	}
+	/**
+	 * PUT REST API to update patient details
+	 * 
+	 * @param PatientDetails
+	 */
+	@PutMapping("/updatedetails")
+	public ResponseEntity<PatientDetails> updatePatient(@RequestBody PatientDetails patientDetails){
+		try {
+			patientDetailService.update(patientDetails);
+		}
+		catch(IdValueNull e)
+		{
+			logger.trace("Id value is null for updating patient data");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		logger.info("Patient Details Successfully Updated");
+		return new ResponseEntity<>(patientDetails,HttpStatus.CREATED);
 	}
 }

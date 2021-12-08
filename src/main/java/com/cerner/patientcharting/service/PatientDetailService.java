@@ -11,9 +11,21 @@ public interface PatientDetailService {
 	 * @param patientDetails
 	 */
 	public void createPatient(PatientDetails patientDetails);
-
+	/**
+	 * List Patient details info on the basis of name from the repository (Database)
+	 * 
+	 * @param name
+	 */
 	public List<PatientDetails> findByName(String name);
-
+	/**
+	 * List Patient details info from the repository (Database)
+	 * 
+	 */
 	public List<PatientDetails> findAll();
-
+	/**
+	 * Update Patient details info into the repository (Database)
+	 * 
+	 * @param patientDetails
+	 */
+	public void update(PatientDetails patientDetails);
 }

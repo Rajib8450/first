@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cerner.patientcharting.exception.IdValueNull;
 import com.cerner.patientcharting.exception.RecordAlreadyExsists;
 import com.cerner.patientcharting.model.Patient;
 import com.cerner.patientcharting.model.PatientDetails;
@@ -60,5 +61,19 @@ public class PatientDetailServiceImpl implements PatientDetailService {
 	@Override
 	public List<PatientDetails> findByName(String name) {
 		return patientDetailsRepository.findByName(name);
+	}
+	/**
+	 * Function to update patient details
+	 * 
+	 * @param patientDetails
+	 */
+	@Override
+	public void update(PatientDetails patientDetails) {
+		if(patientDetails.getId()==null)
+		{
+			logger.trace("Id value cannot be null");
+			throw new IdValueNull("Id value is null");
+		}
+		patientDetailsRepository.save(patientDetails);
 	}
 }

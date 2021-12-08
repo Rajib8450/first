@@ -27,7 +27,7 @@ import com.cerner.patientcharting.util.JwtUtils;
 public class UserDetailServiceImpl implements UserDetailsService,UserDetailService{
 	private static final Logger logger = LoggerFactory.getLogger(UserDetailServiceImpl.class);
 	@Autowired
-	private UserRepository userRepository;
+	UserRepository userRepository;
 	@Autowired
 	PasswordEncoder encoder;
 	@Autowired

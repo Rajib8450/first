@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.cerner.patientcharting.exception.IdValueNull;
 import com.cerner.patientcharting.exception.RecordAlreadyExsists;
 import com.cerner.patientcharting.model.PatientDetails;
 import com.cerner.patientcharting.repository.PatientDetailsRepository;
@@ -62,5 +63,16 @@ public class PatientDetailServiceTest {
 		pd.add(patientDetails);
 		Mockito.when(patientDetailRepository.findByName("test")).thenReturn(pd);
 		Assertions.assertEquals(pd, patientDetailServiceImpl.findByName("test"));
+	}
+	@Test
+	public void updateTest() {
+		doReturn(null).when(patientDetailRepository).save(patientDetails);
+		patientDetailServiceImpl.update(patientDetails);
+	}
+	@Test
+	public void updateFailureTest() {
+		patientDetails.setId(null);
+		IdValueNull ex=assertThrows(IdValueNull.class,()->patientDetailServiceImpl.update(patientDetails));
+		Assertions.assertEquals("Id value is null", ex.getMessage());
 	}
 }
