@@ -3,6 +3,9 @@ package com.cerner.patientcharting.service;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doReturn;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +20,7 @@ import com.cerner.patientcharting.repository.PatientDetailsRepository;
 import com.cerner.patientcharting.repository.PatientRepository;
 @SpringBootTest
 public class PatientDetailServiceTest {
+	List<PatientDetails> pd = new ArrayList<PatientDetails>();
 	@InjectMocks
 	private PatientDetailServiceImpl patientDetailServiceImpl;
 	@Mock
@@ -46,5 +50,17 @@ public class PatientDetailServiceTest {
 		RecordAlreadyExsists ex=assertThrows(RecordAlreadyExsists.class,()->patientDetailServiceImpl.createPatient(patientDetails));
 		Assertions.assertEquals("MrnNo exist", ex.getMessage());
 
+	}
+	@Test
+	public void findAllTest() {
+		pd.add(patientDetails);
+		Mockito.when(patientDetailRepository.findAll()).thenReturn(pd);
+		Assertions.assertEquals(pd, patientDetailServiceImpl.findAll());
+	}
+	@Test
+	public void findByNameTest() {
+		pd.add(patientDetails);
+		Mockito.when(patientDetailRepository.findByName("test")).thenReturn(pd);
+		Assertions.assertEquals(pd, patientDetailServiceImpl.findByName("test"));
 	}
 }

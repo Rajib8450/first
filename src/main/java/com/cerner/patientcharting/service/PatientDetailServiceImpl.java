@@ -1,5 +1,7 @@
 package com.cerner.patientcharting.service;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +42,23 @@ public class PatientDetailServiceImpl implements PatientDetailService {
 			patientRepository.save(patient);
 		}
 	}
-
+	/**
+	 * Function to fetch all patient details from repository
+	 * 
+	 * @return List<PatientDetails>
+	 */
+	@Override
+	public List<PatientDetails> findAll() {
+		return patientDetailsRepository.findAll();
+	}
+	/**
+	 * Function to fetch patient details from repository on the basis of input i.e name
+	 * 
+	 * @param name
+	 * @return List<PatientDetails>
+	 */
+	@Override
+	public List<PatientDetails> findByName(String name) {
+		return patientDetailsRepository.findByName(name);
+	}
 }

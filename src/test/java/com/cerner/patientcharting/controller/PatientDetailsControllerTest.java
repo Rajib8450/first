@@ -1,5 +1,12 @@
 package com.cerner.patientcharting.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -21,6 +28,8 @@ import com.cerner.patientcharting.service.PatientDetailService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 @SpringBootTest
 public class PatientDetailsControllerTest {
+	List<PatientDetails> pd = new ArrayList<PatientDetails>();
+
 	@Autowired
 	ObjectMapper objectMapper;
 	@Mock
@@ -59,5 +68,25 @@ public class PatientDetailsControllerTest {
 		MvcResult result=mockMvc.perform(post("/create").content(jsonRequest).contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isConflict()).andReturn();
 		Assertions.assertEquals(409,result.getResponse().getStatus());
 		Assertions.assertEquals("MrnNo already exist",result.getResponse().getContentAsString());
+	}
+	@Test
+	public void findPatientDetailsTest() throws Exception {
+		String jsonRequest=objectMapper.writeValueAsString(patientDetails);
+		pd.add(patientDetails);
+		String json=objectMapper.writeValueAsString(pd);
+		mockMvc.perform(post("/create").content(jsonRequest).contentType(MediaType.APPLICATION_JSON_VALUE));
+		MvcResult result=mockMvc.perform(get("/details?name=test").accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isAccepted()).andReturn();
+		Assertions.assertEquals(202,result.getResponse().getStatus());
+		Assertions.assertEquals(json,result.getResponse().getContentAsString());
+	}
+	@Test
+	public void findPatientDetailsFailureTest() throws Exception {
+		MvcResult result=mockMvc.perform(get("/details?name=testName").accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isNotFound()).andReturn();
+		Assertions.assertEquals(404,result.getResponse().getStatus());
+	}
+	@Test
+	public void findAllPatientDetailsTest() throws Exception {
+		MvcResult result=mockMvc.perform(get("/alldetails").accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isAccepted()).andReturn();
+		Assertions.assertEquals(202,result.getResponse().getStatus());
 	}
 }
